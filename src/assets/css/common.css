@@ -1,0 +1,223 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  background-color: #F9F9F9;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+i {
+  display: inline-block;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #333333;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(162, 162, 162, 0.5);
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input, button, select, textarea {
+  outline: none;
+  border: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+/* 居中 */
+.text-center {
+  text-align: center;
+}
+
+/* 居右 */
+.text-right {
+  text-align: right;
+}
+
+/* margin小边距 */
+.margin-small {
+  margin: 10px;
+}
+
+/* margin右边小边距 */
+.margin-right-small {
+  margin-right: 5px;
+}
+
+/* margin下面边小边距 */
+.margin-bottom-small {
+  margin-bottom: 10px;
+}
+
+/* margin上面边小边距 */
+.margin-top-small {
+  margin-top: 10px;
+}
+
+/* margin上面边大边距 */
+.margin-top-big {
+  margin-top: 20px;
+}
+
+/* margin左边大边距 */
+.margin-left-small {
+  margin-left: 10px !important;
+}
+
+/* 右浮动 */
+.float-right {
+  float: right;
+}
+
+/* 阴影 */
+.box-shadow {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 背景白色 */
+.bg-write {
+  background: white;
+}
+
+/* 边距为 0*/
+.padding-none {
+  padding-right: 0px !important;
+}
+
+/* 边距为 0*/
+.padding-small {
+  padding: 0 10px;
+}
+
+/* dialog宽度 */
+.dialog-small > .el-dialog {
+  width: 500px;
+}
+
+.dialog-medium > .el-dialog {
+  width: 900px;
+}
+
+.dialog-big > .el-dialog {
+  width: 1200px;
+}
+
+.main-background {
+  width: 100%;
+  background-color: #fff;
+  height: 100%;
+}
+
+.bgc {
+  background-color: #ECF6F4;
+}
+
+.el-upload-tip {
+  color: #999;
+  text-indent: -2px;
+  font-size: 12px;
+  margin-top: 10px;
+  line-height: 20px;
+}
+
+.detail-head {
+  padding: 0;
+  margin-bottom: 10px;
+  height: 40px;
+  display: flex;
+}
+
+.detail-head span {
+  display: block;
+  line-height: 40px;
+  text-align: center;
+}
+
+.detail-head span:first-of-type {
+  width: 400px;
+}
+
+.detail-head span:last-of-type {
+  width: 100%;
+}
+
+/* disabled的input框字体颜色设置 */
+.el-input__inner:disabled, .el-input__inner[disabled] {
+  color: #333 !important;
+  opacity: 1;
+}
+
+.el-dialog__body .aside-tree {
+  max-height: 520px;
+}
+
+.el-dialog__body .aside-tree {
+  max-height: 460px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #C1C1C1;
+}

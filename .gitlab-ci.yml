@@ -1,0 +1,73 @@
+stages:
+#  - test
+  - build
+  - release
+  - staging
+
+#include:
+#  - template: Code-Quality.shtd.gitlab-ci.yml
+
+devel-build:
+  image: registry.shtd-tech.com/node-jfrog:14.8.0
+  stage: build
+  script:
+    - VERSION=$(node -p "require('./package.json').version")
+    - echo "VERSION=$VERSION" >> build.env
+    - npm install
+    - npm run build -- --mode development
+  only:
+    - devel
+  artifacts:
+    paths:
+      - dist/
+    reports:
+      dotenv: build.env
+
+devel-release:
+  stage: release
+  script:
+    - IMAGE="registry.shtd-tech.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$VERSION"
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
+  dependencies:
+    - devel-build
+  only:
+    - devel
+
+.staging_deploy: &staging_deploy
+  image: registry.shtd-tech.com/kubectl:1.18.3
+  stage: staging
+  environment: staging
+  script:
+    - IMAGE="registry.shtd-tech.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$VERSION"
+    - sed -i "s|\${image}|$IMAGE|g" deployment.yml
+    - sed -i s/'${application}'/$CI_PROJECT_NAME/g deployment.yml
+    - echo "$VERSION"
+    - kubectl delete -f deployment.yml -n $CI_PROJECT_NAMESPACE || true
+    - kubectl apply -f deployment.yml -n $CI_PROJECT_NAMESPACE
+  dependencies:
+     - devel-build
+
+auto-deploy-master:
+  <<: *staging_deploy
+  only:
+    - devel
+
+
+.prod_build: &prod_build
+  image: registry.shtd-tech.com/node-jfrog:14.8.0
+  stage: build
+  script:
+    - VERSION=${CI_COMMIT_TAG:1}
+    - npm install
+    - npm run build
+    - sed -i 's/\("version":\ "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)"/\1'$VERSION'"/g' package.json
+    - tar czvf $CI_PROJECT_NAME-$VERSION.RELEASE.tar.gz dist
+    - jfrog rt config --url=http://jfrog.shtd-tech.com:8081/artifactory --user=$JFROG_USER --password=$JFROG_PASSWORD
+    - jfrog rt u "web-(*).tar.gz" libs-release-local/com/shtd/mms/$CI_PROJECT_NAME/{1}/ --recursive=false
+
+prod-build:
+  <<: *prod_build
+  only:
+    refs:
+      - /^v[0-9]+(?:.[0-9]+)+$/
